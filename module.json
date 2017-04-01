@@ -1,0 +1,17 @@
+{
+    "name": "Store",
+    "alias": "store",
+    "description": "",
+    "version": "1.0.0",
+    "keywords": [],
+    "active": 1,
+    "order": 65,
+    "providers": [
+        "Modules\\Store\\Providers\\StoreServiceProvider",
+        "Modules\\Store\\Providers\\RouteServiceProvider"
+    ],
+    "aliases": [],
+    "files": [
+        "helpers.php"
+    ]
+}
