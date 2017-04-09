@@ -26,7 +26,7 @@ class AddTechnicalDescriptionColumnToStoreProductTranslationsTable extends Migra
     public function down()
     {
         Schema::table('store__product_translations', function (Blueprint $table) {
-            $table->text('technical_description')->nullable();
+            $table->dropColumn('technical_description');
         });
     }
 }

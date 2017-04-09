@@ -8,6 +8,7 @@
     "order": 65,
     "providers": [
         "Modules\\Store\\Providers\\StoreServiceProvider",
+        "Modules\\Store\\Providers\\EventServiceProvider",
         "Modules\\Store\\Providers\\RouteServiceProvider"
     ],
     "aliases": [],
