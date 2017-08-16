@@ -4,18 +4,21 @@ namespace Modules\Store\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Mcamara\LaravelLocalization\Middleware\LaravelLocalizationRoutes;
+use Modules\Core\Events\BuildingSidebar;
+use Modules\Core\Traits\CanGetSidebarClassForModule;
 use Modules\Core\Traits\CanPublishConfiguration;
 use Modules\Media\Image\ThumbnailManager;
 use Modules\Store\Composers\MenuModify;
 use Modules\Store\Composers\StoreAdminAssets;
 use Modules\Store\Entities\Category;
 use Modules\Store\Entities\Product;
+use Modules\Store\Events\Handlers\RegisterStoreSidebar;
 use Modules\Store\Observers\CategoryObserver;
 use Modules\Tag\Repositories\TagManager;
 
 class StoreServiceProvider extends ServiceProvider
 {
-    use CanPublishConfiguration;
+    use CanPublishConfiguration, CanGetSidebarClassForModule;
     /**
      * Indicates if loading of the provider is deferred.
      *
@@ -36,6 +39,11 @@ class StoreServiceProvider extends ServiceProvider
         if(view()->exists('partials.header')) {
             view()->composer('partials.header', MenuModify::class);
         }
+
+        $this->app['events']->listen(
+            BuildingSidebar::class,
+            $this->getSidebarClassForModule('store', RegisterStoreSidebar::class)
+        );
     }
 
     public function boot()

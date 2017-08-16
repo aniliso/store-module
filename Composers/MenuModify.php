@@ -27,7 +27,7 @@ class MenuModify
     public function compose(View $view)
     {
         $menuItem = Menuitem::whereHas('translations', function(Builder $q) {
-            $q->where('title', 'Ekipmanlar');
+            $q->where('title', 'Ürünler');
         })->first();
         if(count($menuItem)>0) {
             \Menu::modify('header', function ($menu) use ($menuItem) {

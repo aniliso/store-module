@@ -27,9 +27,9 @@
                                     </div>
                                     @endforeach
                                 </div>
-                                <div class="row c-product-gallery-thumbnail">
-                                    @foreach($product->present()->images(150, 150, 'fit', 80) as $image)
-                                    <div class="col-xs-3 c-product-thumb">
+                                <div class="row c-product-gallery-thumbnail" style="height: 150px;">
+                                    @foreach($product->present()->images(null, 150, 'resize', 80) as $image)
+                                    <div class="col-xs-3 c-product-thumb" style="height: 150px;">
                                         <img src="{{ $image }}">
                                     </div>
                                     @endforeach
