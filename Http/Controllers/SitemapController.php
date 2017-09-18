@@ -15,7 +15,6 @@ class SitemapController extends BaseSitemapController
     public function __construct(CategoryRepository $category)
     {
         parent::__construct();
-        $this->sitemap->setCache('laravel.store.sitemap', $this->sitemapCachePeriod);
         $this->category = $category;
     }
 
