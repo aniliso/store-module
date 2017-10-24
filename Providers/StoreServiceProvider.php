@@ -40,6 +40,8 @@ class StoreServiceProvider extends ServiceProvider
             view()->composer('partials.header', MenuModify::class);
         }
 
+        $this->app->register(\Baum\Providers\BaumServiceProvider::class);
+
         $this->app['events']->listen(
             BuildingSidebar::class,
             $this->getSidebarClassForModule('store', RegisterStoreSidebar::class)
