@@ -34,6 +34,12 @@ class StoreServiceProvider extends ServiceProvider
     public function register()
     {
         $this->registerBindings();
+
+        $this->app->extend('asgard.ModulesList', function($app) {
+            array_push($app, 'store');
+            return $app;
+        });
+
         view()->composer(['store::admin.products.index', 'store::admin.categories.index'], StoreAdminAssets::class);
 
         if(view()->exists('partials.header')) {
