@@ -105,6 +105,7 @@ class ProductController extends AdminBaseController
                     ));
                     return $action_buttons;
                 })
+                ->escapeColumns([])
                 ->make(true);
         }
 
