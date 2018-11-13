@@ -32,7 +32,7 @@ class Product extends Model implements TaggableInterface
 
     public function categories()
     {
-        return $this->belongsToMany(Category::class, 'store__product_categories');
+        return $this->belongsToMany(Category::class, 'store__product_categories')->with(['translations']);
     }
 
     public function related()
@@ -42,7 +42,7 @@ class Product extends Model implements TaggableInterface
 
     public function brand()
     {
-        return $this->belongsTo(Brand::class, 'brand_id');
+        return $this->belongsTo(Brand::class, 'brand_id')->with('translations');
     }
 
     public function scopeActive($query)
@@ -53,7 +53,7 @@ class Product extends Model implements TaggableInterface
     public function getUrlAttribute()
     {
         if(isset($this->slug)) {
-            return route('store.product.slug', [$this->slug]);
+            return route('store.product.slug', [$this->slug, $this->id]);
         }
         return null;
     }

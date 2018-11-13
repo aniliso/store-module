@@ -89,6 +89,12 @@ class ProductController extends AdminBaseController
                         ]
                     ));
                     $action_buttons .= \Html::decode(link_to(
+                        route('admin.store.product.duplicate',
+                            [$product->id]),
+                        '<i class="fa fa-copy"></i>',
+                        ['class' => 'btn btn-default btn-xs btn-flat']
+                    ));
+                    $action_buttons .= \Html::decode(link_to(
                         route('admin.store.product.edit',
                             [$product->id]),
                         '<i class="fa fa-pencil"></i>',
@@ -213,7 +219,16 @@ class ProductController extends AdminBaseController
 
     public function duplicate(Product $product)
     {
-        $new_product = $product->replicate();
-        $new_product->save();
+        $replicate = $product->replicateWithTranslations();
+        foreach ($replicate->translations as $translate) {
+            $translate->title = $translate->title . '-' . $product->id;
+            $translate->slug  = $translate->slug  . '-' . $product->id;
+        }
+        $replicate->brand()->associate($product->brand);
+        $replicate->save();
+        $replicate->categories()->sync($product->categories);
+
+        return redirect()->route('admin.store.product.index')
+            ->withSuccess(trans('core::core.messages.resource replicated'));
     }
 }

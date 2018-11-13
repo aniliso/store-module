@@ -22,11 +22,11 @@ class UpdateProductRequest extends BaseFormRequest
 
     public function translationRules()
     {
-        $id = $this->route()->parameter('product')->id;
+//        $id = $this->route()->parameter('product')->id;
 
         return [
             'title' => "required",
-            'slug'  => "required|unique:store__product_translations,slug,$id,product_id",
+            'slug'  => "required", //unique:store__product_translations,slug,$id,product_id
             'description' => "required|min:10"
         ];
     }

@@ -1,7 +1,9 @@
 <?php namespace Modules\Store\Widgets;
 
 
+use Modules\Store\Entities\Product;
 use Modules\Store\Repositories\CategoryRepository;
+use Modules\Store\Repositories\ProductRepository;
 
 class StoreWidget
 {
@@ -9,19 +11,44 @@ class StoreWidget
      * @var CategoryRepository
      */
     private $category;
+    /**
+     * @var ProductRepository
+     */
+    private $product;
 
-    public function __construct(CategoryRepository $category)
+    public function __construct(
+        CategoryRepository $category,
+        ProductRepository $product
+    )
     {
-
         $this->category = $category;
+        $this->product = $product;
     }
 
-    public function latestProducts($slug='', $limit=5, $view='latest-products')
+    public function categories($limit=6, $view='category')
     {
-        $category = $this->category->findBySlug($slug);
-        if(isset($category)) {
-            $products = $category->products()->orderBy('ordering')->get()->take($limit);
-            return view('store::widgets.'.$view, compact('category', 'products'));
+        $categories = $this->category->all()->where('status', 1)->take($limit);
+        if($categories->count()>0) {
+            return view('store::widgets.'.$view, compact('categories'));
         }
+        return null;
+    }
+
+    public function latest($limit=6, $view='product')
+    {
+        $products = $this->product->getByAttributes(['is_new'=>1]);
+        if($products->count()>0) {
+            return view('store::widgets.'.$view, compact('products'));
+        }
+        return null;
+    }
+
+    public function related(Product $product, $limit=6, $view='related')
+    {
+        if($product->related()->count()>0) {
+            $products = $product->related()->get();
+            return view('store::widgets.'.$view, compact('products'));
+        }
+        return null;
     }
 }

@@ -20,7 +20,7 @@ class SitemapController extends BaseSitemapController
 
     public function index()
     {
-        foreach ($this->category->roots()->get()->toHierarchy() as $category)
+        foreach ($this->category->roots() as $category)
         {
             if (!$category->sitemap_include) continue;
             $this->sitemap->add(

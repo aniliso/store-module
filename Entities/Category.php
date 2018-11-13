@@ -45,9 +45,6 @@ class Category extends Node
 
     public function getUrlAttribute()
     {
-        if(isset($this->slug)) {
-            return route('store.category.slug', [$this->slug]);
-        }
-        return null;
+        return route('store.category.slug', [$this->slug]);
     }
 }

@@ -34,7 +34,7 @@ class MenuModify
                 $this->menuRenderer->routeMenu(
                     $menuItem->uri,
                     $menu,
-                    $this->category->roots()->active()->orderBy('ordering', 'ASC')->get()
+                    $this->category->roots()
                 );
             });
         }

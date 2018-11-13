@@ -2,7 +2,7 @@
 
 class CategoryPresenter extends BaseStorePresenter
 {
-    protected $zone = 'categoryImages';
+    protected $zone = 'productCategoryImage';
     protected $slug = 'uri';
     protected $transKey = 'store::routes.category.slug';
     protected $routeKey = 'store.category.slug';

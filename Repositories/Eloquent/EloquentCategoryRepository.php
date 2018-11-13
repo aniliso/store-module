@@ -9,6 +9,15 @@ use Modules\Core\Repositories\Eloquent\EloquentBaseRepository;
 
 class EloquentCategoryRepository extends EloquentBaseRepository implements CategoryRepository
 {
+    public function all()
+    {
+        if (method_exists($this->model, 'translations')) {
+            return $this->model->with(['translations', 'products'])->orderBy('ordering', 'ASC')->get();
+        }
+
+        return $this->model->orderBy('ordering', 'ASC')->get();
+    }
+
     public function create($data)
     {
         $model = $this->model->create($data);

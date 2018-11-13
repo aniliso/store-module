@@ -8,10 +8,11 @@ return [
         'destroy' => 'store::categories.destroy resource',
     ],
     'store.products'     => [
-        'index'   => 'store::products.list resource',
-        'create'  => 'store::products.create resource',
-        'edit'    => 'store::products.edit resource',
-        'destroy' => 'store::products.destroy resource',
+        'index'     => 'store::products.list resource',
+        'create'    => 'store::products.create resource',
+        'edit'      => 'store::products.edit resource',
+        'destroy'   => 'store::products.destroy resource',
+        'duplicate' => 'store::products.duplicate resource',
     ],
     'store.brands'       => [
         'index'   => 'store::brands.list resource',

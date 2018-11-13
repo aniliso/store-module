@@ -53,7 +53,7 @@ class PublicController extends BasePublicController
 
         if(!app()->runningInConsole()) {
             Breadcrumbs::register('store', function ($breadcrumbs) {
-                $breadcrumbs->push(trans('themes::product.title'), route('store.index'));
+                $breadcrumbs->push(trans('themes::store.product.titles.product'), route('store.index'));
             });
         }
 
@@ -68,7 +68,7 @@ class PublicController extends BasePublicController
         $products = $this->product->allTranslatedInPaginate($this->locale, $this->perPage);
 
         /* Start Seo */
-        $title = trans('themes::product.title');
+        $title = trans('themes::store.products.titles.product');
         $url   = route('store.index');
 
         $this->seo()
@@ -101,9 +101,9 @@ class PublicController extends BasePublicController
      * @param $slug
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function product($slug)
+    public function product($slug, $id)
     {
-        $product = $this->product->findBySlug($slug);
+        $product = $this->product->find($id);
 
         $this->throw404IfNotFound($product);
 

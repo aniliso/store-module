@@ -10,9 +10,20 @@ use Modules\Core\Repositories\Eloquent\EloquentBaseRepository;
 
 class EloquentProductRepository extends EloquentBaseRepository implements ProductRepository
 {
+    private $with = ['brand','categories','translations','related'];
+
+    public function find($id)
+    {
+        if (method_exists($this->model, 'translations')) {
+            return $this->model->with($this->with)->find($id);
+        }
+
+        return $this->model->find($id);
+    }
+
     public function all()
     {
-        return $this->model->with(['translations', 'categories'])->get();
+        return $this->model->with($this->with)->get();
     }
 
     /**
@@ -61,7 +72,7 @@ class EloquentProductRepository extends EloquentBaseRepository implements Produc
         return $this->model->whereHas('translations', function (Builder $q) use ($lang, $per_page) {
             $q->where("locale", "$lang");
             $q->where("title", '!=', '');
-        })->with(['translations', 'categories', 'tags'])->orderBy('ordering', 'asc')->active()->paginate($per_page);
+        })->with($this->with)->orderBy('ordering', 'asc')->active()->paginate($per_page);
     }
 
     public function findBySlug($slug)
@@ -69,7 +80,7 @@ class EloquentProductRepository extends EloquentBaseRepository implements Produc
         if (method_exists($this->model, 'translations')) {
             return $this->model->whereHas('translations', function (Builder $q) use ($slug) {
                 $q->where('slug', $slug);
-            })->with(['translations','categories','brand','related'])->active()->first();
+            })->with($this->with)->active()->first();
         }
 
         return $this->model->where('slug', $slug)->active()->first();
@@ -92,7 +103,7 @@ class EloquentProductRepository extends EloquentBaseRepository implements Produc
      */
     public function latest($amount=5)
     {
-        return $this->model->whereStatus(Status::PUBLISHED)->orderBy('created_at', 'desc')->take($amount)->get();
+        return $this->model->whereStatus(Status::PUBLISHED)->orderBy('created_at', 'desc')->take($amount)->with($this->with)->get();
     }
 
     /**
@@ -101,5 +112,31 @@ class EloquentProductRepository extends EloquentBaseRepository implements Produc
     public function query()
     {
         return $this->model->query();
+    }
+
+    private function buildQueryByAttributes(array $attributes, $orderBy = null, $sortOrder = 'asc')
+    {
+        $query = $this->model->query();
+
+        if (method_exists($this->model, 'translations')) {
+            $query = $query->with('translations');
+        }
+
+        foreach ($attributes as $field => $value) {
+            $query = $query->where($field, $value);
+        }
+
+        if (null !== $orderBy) {
+            $query->orderBy($orderBy, $sortOrder);
+        }
+
+        return $query;
+    }
+
+    public function getByAttributes(array $attributes, $orderBy = null, $sortOrder = 'asc')
+    {
+        $query = $this->buildQueryByAttributes($attributes, $orderBy, $sortOrder);
+
+        return $query->with($this->with)->get();
     }
 }

@@ -65,6 +65,11 @@ $router->group(['prefix' =>'/store'], function (Router $router) {
         'uses' => 'ProductController@update',
         'middleware' => 'can:store.products.edit'
     ]);
+    $router->get('product/{product}/duplicate', [
+        'as' => 'admin.store.product.duplicate',
+        'uses' => 'ProductController@duplicate',
+        'middleware' => 'can:store.products.duplicate'
+    ]);
     $router->delete('products/{product}', [
         'as' => 'admin.store.product.destroy',
         'uses' => 'ProductController@destroy',

@@ -53,7 +53,9 @@ class StoreServiceProvider extends ServiceProvider
             $this->getSidebarClassForModule('store', RegisterStoreSidebar::class)
         );
 
-        \Widget::register('latestProducts', 'Modules\Store\Widgets\storeWidget@latestProducts');
+        \Widget::register('storeLatestProduct', 'Modules\Store\Widgets\storeWidget@latest');
+        \Widget::register('storeCategory', 'Modules\Store\Widgets\storeWidget@categories');
+        \Widget::register('storeRelatedProducts', 'Modules\Store\Widgets\storeWidget@related');
     }
 
     public function boot()

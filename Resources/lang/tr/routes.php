@@ -1,11 +1,11 @@
 <?php
 
 return [
-    'index' => 'ekipmanlar',
+    'index' => 'katalog',
     'category' => [
         'slug' => 'kategori/{uri}'
     ],
     'product'  => [
-        'slug'  => 'ekipman/{uri}'
+        'slug'  => 'urun/{id}/{uri}'
     ],
 ];

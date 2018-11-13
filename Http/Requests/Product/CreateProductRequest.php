@@ -24,7 +24,7 @@ class CreateProductRequest extends BaseFormRequest
     {
         return [
             'title'       => 'required',
-            'slug'        => 'required|unique:store__product_translations,slug',
+            'slug'        => 'required', //'slug'        => 'unique:store__product_translations,slug',
             'description' => 'required|min:10',
         ];
     }

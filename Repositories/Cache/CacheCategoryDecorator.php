@@ -46,7 +46,7 @@ class CacheCategoryDecorator extends BaseCacheDecorator implements CategoryRepos
             ->tags($this->entityName, 'global')
             ->remember("{$this->locale}.{$this->entityName}.roots", $this->cacheTime,
                 function () {
-                    return $this->repository->roots();
+                    return $this->repository->roots()->get();
                 }
             );
     }

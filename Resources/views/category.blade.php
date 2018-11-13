@@ -45,7 +45,7 @@
                                             <div class="c-content-overlay">
                                                 <div class="c-overlay-wrapper">
                                                     <div class="c-overlay-content">
-                                                        <a href="{{ $product->present()->url }}" class="btn btn-md c-btn-grey-1 c-btn-uppercase c-btn-bold c-btn-border-1x c-btn-square">{{ trans('store::products.title.review') }}</a>
+                                                        <a href="{{ $product->url }}" class="btn btn-md c-btn-grey-1 c-btn-uppercase c-btn-bold c-btn-border-1x c-btn-square">{{ trans('store::products.title.review') }}</a>
                                                     </div>
                                                 </div>
                                                 <div class="c-bg-img-center c-overlay-object" data-height="height" style="height: 230px; background-image: url({{ $product->present()->firstImage(null, 230, 'resize', 90) }});"></div>
