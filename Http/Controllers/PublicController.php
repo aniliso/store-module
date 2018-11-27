@@ -3,8 +3,10 @@
 namespace Modules\Store\Http\Controllers;
 
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Http\Request;
 use Modules\Core\Http\Controllers\BasePublicController;
 use Modules\Store\Entities\Category;
+use Modules\Store\Repositories\BrandRepository;
 use Modules\Store\Repositories\CategoryRepository;
 use Modules\Store\Repositories\ProductRepository;
 use Breadcrumbs;
@@ -32,6 +34,10 @@ class PublicController extends BasePublicController
      * @var Application
      */
     private $app;
+    /**
+     * @var BrandRepository
+     */
+    private $brand;
 
     /**
      * PublicController constructor.
@@ -41,6 +47,7 @@ class PublicController extends BasePublicController
     public function __construct(
         CategoryRepository $category,
         ProductRepository $product,
+        BrandRepository $brand,
         Application $app
     )
     {
@@ -48,6 +55,7 @@ class PublicController extends BasePublicController
         $this->app = $app;
         $this->category = $category;
         $this->product = $product;
+        $this->brand = $brand;
 
         $this->perPage = setting('store::products-per-page');
 
@@ -177,6 +185,67 @@ class PublicController extends BasePublicController
         });
 
         return view('store::category', compact('category', 'products'));
+    }
+
+    /**
+     * @param $slug
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function brand($slug)
+    {
+        $brand = $this->brand->findBySlug($slug);
+
+        $this->throw404IfNotFound($brand);
+
+        $products = $brand->products()->orderBy('ordering', 'asc')->active()->paginate($this->perPage);
+
+        /* Start Seo */
+        $this->seo()
+            ->setTitle($brand->present()->meta_title)
+            ->setDescription($brand->present()->meta_description)
+            ->meta()->setUrl($brand->url)
+            ->addMeta('robots', $brand->robots)
+            ->addAlternates($brand->present()->languages);
+
+        $this->seoGraph()
+            ->setTitle($brand->present()->meta_title)
+            ->setDescription($brand->present()->meta_description)
+            ->setType($brand->og_type)
+            ->setUrl($brand->url);
+
+        $this->seoCard()
+            ->setTitle($brand->present()->meta_title)
+            ->setDescription($brand->present()->meta_description)
+            ->setType('app');
+
+        /* End Seo */
+        Breadcrumbs::register('store.brand', function ($breadcrumbs) use ($brand) {
+            $breadcrumbs->parent('store');
+            $breadcrumbs->push($brand->title, $brand->url);
+        });
+
+        return view('store::brands', compact('brand', 'products'));
+    }
+
+    public function search(Request $request)
+    {
+        if(!$request->has('s')) {
+            return redirect(route('store.index'));
+        }
+        $query = $request->get('s');
+        $products = $this->product->search($query, $this->perPage);
+
+        $this->setTitle($query)
+            ->setDescription($query);
+
+        $this->seoMeta()->addMeta('robots', 'noindex, nofollow');
+
+        Breadcrumbs::register('store.search', function ($breadcrumbs) use ($query) {
+            $breadcrumbs->parent('store');
+            $breadcrumbs->push($query, \LaravelLocalization::getLocalizedURL(locale(), route('store.product.search', ['s'=>$query])));
+        });
+
+        return view('store::search', compact('query', 'products'));
     }
 
     /**

@@ -32,4 +32,9 @@ class Brand extends Model
     {
         return $query->where('status', Status::PUBLISHED);
     }
+
+    public function getUrlAttribute()
+    {
+        return \LaravelLocalization::getLocalizedURL(locale(), route('store.brand.slug', $this->slug));
+    }
 }

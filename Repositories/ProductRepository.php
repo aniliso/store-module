@@ -29,4 +29,11 @@ interface ProductRepository extends BaseRepository
      * @return mixed
      */
     public function query();
+
+    /**
+     * @param $query
+     * @param $per_page
+     * @return mixed
+     */
+    public function search($query, $per_page);
 }

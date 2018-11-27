@@ -3,6 +3,7 @@
 namespace Modules\Store\Entities;
 
 use Dimsav\Translatable\Translatable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Laracasts\Presenter\PresentableTrait;
 use Modules\Core\Traits\NamespacedEntity;
@@ -105,5 +106,33 @@ class Product extends Model implements TaggableInterface
 
         // Increment/append the counter and return the slug we generated
         return $slug . '-' . ($slugs->count()+1);
+    }
+
+    public function scopeMatch($query, $value)
+    {
+        return $query->whereHas('translations', function (Builder $q) use($value) {
+            $q->whereRaw("MATCH(title, description) AGAINST(? IN BOOLEAN MODE)", $this->fullTextWildcards($value));
+        })->orWhereRaw("MATCH(model, sku) AGAINST(? IN BOOLEAN MODE)", $this->fullTextWildcards($value))
+            ->with(['translations'])->whereStatus(Status::PUBLISHED);
+    }
+
+    protected function fullTextWildcards($term)
+    {
+        // removing symbols used by MySQL
+        $term = preg_replace('/[^\p{L}\p{N}_]+/u', ' ', $term);
+        $words = explode(' ', $term);
+        foreach($words as $key => $word) {
+            /*
+             * applying + operator (required word) only big words
+             * because smaller ones are not indexed by mysql
+             */
+            if(strlen($word) >= 3) {
+                $words[$key] = '+' . $word . '*';
+            }
+        }
+
+        $searchTerm = implode( ' ', $words);
+
+        return $searchTerm;
     }
 }

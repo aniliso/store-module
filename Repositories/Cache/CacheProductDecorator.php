@@ -78,4 +78,21 @@ class CacheProductDecorator extends BaseCacheDecorator implements ProductReposit
                 }
             );
     }
+
+    /**
+     * @param $query
+     * @param $per_page
+     * @return mixed
+     */
+    public function search($query, $per_page)
+    {
+        $page = \Request::has('page') ? \Request::query('page') : 1;
+        return $this->cache
+            ->tags($this->entityName, 'global')
+            ->remember("{$this->locale}.{$this->entityName}.search.{$query}.{$per_page}.{$page}", $this->cacheTime,
+                function () use ($query, $per_page) {
+                    return $this->repository->search($query, $per_page);
+                }
+            );
+    }
 }

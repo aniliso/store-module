@@ -139,4 +139,14 @@ class EloquentProductRepository extends EloquentBaseRepository implements Produc
 
         return $query->with($this->with)->get();
     }
+
+    /**
+     * @param $query
+     * @param $per_page
+     * @return mixed
+     */
+    public function search($query, $per_page)
+    {
+        return $this->model->match($query)->paginate($per_page);
+    }
 }

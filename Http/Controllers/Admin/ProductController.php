@@ -227,6 +227,7 @@ class ProductController extends AdminBaseController
         $replicate->brand()->associate($product->brand);
         $replicate->save();
         $replicate->categories()->sync($product->categories);
+        $this->product->clearCache();
 
         return redirect()->route('admin.store.product.index')
             ->withSuccess(trans('core::core.messages.resource replicated'));

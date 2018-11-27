@@ -2,6 +2,7 @@
 
 
 use Modules\Store\Entities\Product;
+use Modules\Store\Repositories\BrandRepository;
 use Modules\Store\Repositories\CategoryRepository;
 use Modules\Store\Repositories\ProductRepository;
 
@@ -15,14 +16,20 @@ class StoreWidget
      * @var ProductRepository
      */
     private $product;
+    /**
+     * @var BrandRepository
+     */
+    private $brand;
 
     public function __construct(
         CategoryRepository $category,
-        ProductRepository $product
+        ProductRepository $product,
+        BrandRepository $brand
     )
     {
         $this->category = $category;
         $this->product = $product;
+        $this->brand = $brand;
     }
 
     public function categories($limit=6, $view='category')
@@ -48,6 +55,16 @@ class StoreWidget
         if($product->related()->count()>0) {
             $products = $product->related()->get();
             return view('store::widgets.'.$view, compact('products'));
+        }
+        return null;
+    }
+
+    public function brands($limit=0, $view='brands')
+    {
+        $brands = $this->brand->all()->sortBy('ordering')->where('status', 1);
+
+        if($brands->count()>0) {
+            return view('store::widgets.'.$view, compact('brands'));
         }
         return null;
     }
