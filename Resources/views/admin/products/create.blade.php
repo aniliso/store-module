@@ -69,6 +69,9 @@
             </div> {{-- end nav-tabs-custom --}}
         </div>
         <div class="col-md-2">
+
+            @includeIf('store::admin.products.partials.settings-fields')
+
             <div class="box box-primary">
                 <div class="box-body">
 

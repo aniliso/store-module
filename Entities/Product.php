@@ -19,7 +19,7 @@ class Product extends Model implements TaggableInterface
 
     protected $table = 'store__products';
     public $translatedAttributes = ['title', 'slug', 'description', 'meta_title', 'meta_description', 'og_title', 'og_description', 'og_type', 'technical_description'];
-    protected $fillable = ['title', 'slug', 'description', 'status', 'sku', 'model','price', 'ordering', 'meta_title', 'meta_description', 'og_title', 'og_description', 'og_type', 'sitemap_frequency', 'sitemap_priority', 'sitemap_include', 'meta_robot_no_index', 'meta_robot_no_follow', 'is_new', 'video', 'technical_description'];
+    protected $fillable = ['title', 'slug', 'description', 'status', 'sku', 'model','price', 'ordering', 'meta_title', 'meta_description', 'og_title', 'og_description', 'og_type', 'sitemap_frequency', 'sitemap_priority', 'sitemap_include', 'meta_robot_no_index', 'meta_robot_no_follow', 'is_new', 'video', 'technical_description', 'settings'];
     public $timestamps = true;
 
     protected static $entityNamespace = 'asgardcms/store';
@@ -28,7 +28,8 @@ class Product extends Model implements TaggableInterface
 
     protected $casts = [
         'status' => 'int',
-        'is_new' => 'int'
+        'is_new' => 'int',
+        'settings' => 'json'
     ];
 
     public function categories()
