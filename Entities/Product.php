@@ -19,7 +19,7 @@ class Product extends Model implements TaggableInterface
 
     protected $table = 'store__products';
     public $translatedAttributes = ['title', 'slug', 'description', 'meta_title', 'meta_description', 'og_title', 'og_description', 'og_type', 'technical_description'];
-    protected $fillable = ['title', 'slug', 'description', 'status', 'sku', 'model','price', 'ordering', 'meta_title', 'meta_description', 'og_title', 'og_description', 'og_type', 'sitemap_frequency', 'sitemap_priority', 'sitemap_include', 'meta_robot_no_index', 'meta_robot_no_follow', 'is_new', 'video', 'technical_description', 'settings'];
+    protected $fillable = ['title', 'slug', 'description', 'status', 'sku', 'model', 'price', 'ordering', 'meta_title', 'meta_description', 'og_title', 'og_description', 'og_type', 'sitemap_frequency', 'sitemap_priority', 'sitemap_include', 'meta_robot_no_index', 'meta_robot_no_follow', 'is_new', 'video', 'technical_description', 'settings'];
     public $timestamps = true;
 
     protected static $entityNamespace = 'asgardcms/store';
@@ -27,9 +27,9 @@ class Product extends Model implements TaggableInterface
     protected $presenter = ProductPresenter::class;
 
     protected $casts = [
-        'status' => 'int',
-        'is_new' => 'int',
-        'settings' => 'json'
+        'status'   => 'int',
+        'is_new'   => 'int',
+        'settings' => 'object'
     ];
 
     public function categories()
@@ -54,7 +54,7 @@ class Product extends Model implements TaggableInterface
 
     public function getUrlAttribute()
     {
-        if(isset($this->slug)) {
+        if (isset($this->slug)) {
             return route('store.product.slug', [$this->slug, $this->id]);
         }
         return null;
@@ -70,8 +70,9 @@ class Product extends Model implements TaggableInterface
         return $this->meta_robot_no_index . ', ' . $this->meta_robot_no_follow;
     }
 
-    public function scopeCategorized($query, Category $category=null) {
-        if ( is_null($category) ) return $query->with('categories');
+    public function scopeCategorized($query, Category $category = null)
+    {
+        if (is_null($category)) return $query->with('categories');
         $categoryIds = $category->getDescendantsAndSelf()->pluck('id');
         return $query->with('categories')
             ->join('store__product_categories', 'store__product_categories.product_id', '=', 'store__products.id')
@@ -80,9 +81,9 @@ class Product extends Model implements TaggableInterface
 
     public function scopeSearchByKeyword($query, $keyword)
     {
-        if($keyword != '') {
-            $query->whereHas('translations', function($query) use ($keyword) {
-               $query->where('title', 'LIKE', "%$keyword%");
+        if ($keyword != '') {
+            $query->whereHas('translations', function ($query) use ($keyword) {
+                $query->where('title', 'LIKE', "%$keyword%");
             });
         }
         return $query;
@@ -95,7 +96,8 @@ class Product extends Model implements TaggableInterface
         })->with('translations')->count();
     }
 
-    private static function generateSlug($slug) {
+    private static function generateSlug($slug)
+    {
 
         $slugs = Product::whereHas('translations', function ($query) use ($slug) {
             $query->whereRaw("slug REGEXP '^{$slug}(-[0-9]*)?$'");
@@ -106,12 +108,12 @@ class Product extends Model implements TaggableInterface
         }
 
         // Increment/append the counter and return the slug we generated
-        return $slug . '-' . ($slugs->count()+1);
+        return $slug . '-' . ($slugs->count() + 1);
     }
 
     public function scopeMatch($query, $value)
     {
-        return $query->whereHas('translations', function (Builder $q) use($value) {
+        return $query->whereHas('translations', function (Builder $q) use ($value) {
             $q->whereRaw("MATCH(title, description) AGAINST(? IN BOOLEAN MODE)", $this->fullTextWildcards($value));
         })->orWhereRaw("MATCH(model, sku) AGAINST(? IN BOOLEAN MODE)", $this->fullTextWildcards($value))
             ->with(['translations'])->whereStatus(Status::PUBLISHED);
@@ -122,17 +124,17 @@ class Product extends Model implements TaggableInterface
         // removing symbols used by MySQL
         $term = preg_replace('/[^\p{L}\p{N}_]+/u', ' ', $term);
         $words = explode(' ', $term);
-        foreach($words as $key => $word) {
+        foreach ($words as $key => $word) {
             /*
              * applying + operator (required word) only big words
              * because smaller ones are not indexed by mysql
              */
-            if(strlen($word) >= 3) {
+            if (strlen($word) >= 3) {
                 $words[$key] = '+' . $word . '*';
             }
         }
 
-        $searchTerm = implode( ' ', $words);
+        $searchTerm = implode(' ', $words);
 
         return $searchTerm;
     }

@@ -78,6 +78,9 @@
             </div> {{-- end nav-tabs-custom --}}
         </div>
         <div class="col-md-2">
+
+            @include('store::admin.products.partials.settings-fields')
+
             <div class="box box-primary">
                 <div class="box-body">
                     {!! Form::normalSelect('brand_id', trans('store::brands.title.brand'), $errors, $brands, $product, ['class'=>'brand ui search dropdown']) !!}
