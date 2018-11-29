@@ -1,6 +1,7 @@
 <?php namespace Modules\Store\Widgets;
 
 
+use Modules\Store\Entities\Category;
 use Modules\Store\Entities\Product;
 use Modules\Store\Repositories\BrandRepository;
 use Modules\Store\Repositories\CategoryRepository;
@@ -36,6 +37,15 @@ class StoreWidget
     {
         $categories = $this->category->all()->where('status', 1)->take($limit);
         if($categories->count()>0) {
+            return view('store::widgets.'.$view, compact('categories'));
+        }
+        return null;
+    }
+
+    public function subCategories(Category $category, $view='category')
+    {
+        if($category->children()->count()>0) {
+            $categories = $category->children()->get();
             return view('store::widgets.'.$view, compact('categories'));
         }
         return null;

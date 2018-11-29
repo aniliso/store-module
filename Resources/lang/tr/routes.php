@@ -6,7 +6,7 @@ return [
         'slug' => 'kategori/{uri}'
     ],
     'product'  => [
-        'slug'   => 'urun/{id}/{uri}',
+        'slug'   => 'urun/{id}/{uri?}',
         'search' => 'urun/ara'
     ],
     'brand'    => [

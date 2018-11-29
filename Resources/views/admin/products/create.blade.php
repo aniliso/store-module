@@ -107,11 +107,11 @@
                 <div class="box-body">
                     <div class='form-group{{ $errors->has("meta_robot_no_index") ? ' has-error' : '' }}'>
                         {!! Form::checkbox("meta_robot_no_index", 'noindex', old("meta_robot_no_index"), ['class' => 'flat-blue']) !!}
-                        {!! Form::label("meta_robot_no_index", trans('page::pages.form.meta_robot_no_index')) !!}
+                        {!! Form::label("meta_robot_no_index", trans('store::stores.form.meta_robot_no_index')) !!}
                         {!! $errors->first("meta_robot_no_index", '<span class="help-block">:message</span>') !!}
                         <br/>
                         {!! Form::checkbox("meta_robot_no_follow", 'nofollow', old("meta_robot_no_follow"), ['class' => 'flat-blue']) !!}
-                        {!! Form::label("meta_robot_no_follow", trans('page::pages.form.meta_robot_no_follow')) !!}
+                        {!! Form::label("meta_robot_no_follow", trans('store::stores.form.meta_robot_no_follow')) !!}
                         {!! $errors->first("meta_robot_no_follow", '<span class="help-block">:message</span>') !!}
                         <br/>
                         {!! Form::checkbox("sitemap_include", '1', old("sitemap_include", 1), ['class' => 'flat-blue']) !!}

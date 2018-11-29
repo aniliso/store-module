@@ -117,12 +117,12 @@
                     <div class='form-group{{ $errors->has("meta_robot_no_index") ? ' has-error' : '' }}'>
                         {!! Form::hidden("meta_robot_no_index", 'index') !!}
                         {!! Form::checkbox("meta_robot_no_index", 'noindex', old("meta_robot_no_index", ($product->meta_robot_no_index == 'index' ? 0 : 1)), ['class' => 'flat-blue']) !!}
-                        {!! Form::label("meta_robot_no_index", trans('blog::post.form.meta_robot_no_index')) !!}
+                        {!! Form::label("meta_robot_no_index", trans('store::stores.form.meta_robot_no_index')) !!}
                         {!! $errors->first("meta_robot_no_index", '<span class="help-block">:message</span>') !!}
                         <br/>
                         {!! Form::hidden("meta_robot_no_follow", 'follow') !!}
                         {!! Form::checkbox("meta_robot_no_follow", 'nofollow', old("meta_robot_no_follow", ($product->meta_robot_no_follow == 'follow' ? 0 : 1)), ['class' => 'flat-blue']) !!}
-                        {!! Form::label("meta_robot_no_follow", trans('blog::post.form.meta_robot_no_follow')) !!}
+                        {!! Form::label("meta_robot_no_follow", trans('store::stores.form.meta_robot_no_follow')) !!}
                         {!! $errors->first("meta_robot_no_follow", '<span class="help-block">:message</span>') !!}
                         <br/>
                         {!! Form::hidden("sitemap_include", 0) !!}

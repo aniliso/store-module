@@ -55,6 +55,7 @@ class StoreServiceProvider extends ServiceProvider
 
         \Widget::register('storeLatestProduct', 'Modules\Store\Widgets\storeWidget@latest');
         \Widget::register('storeCategory', 'Modules\Store\Widgets\storeWidget@categories');
+        \Widget::register('storeSubCategory', 'Modules\Store\Widgets\storeWidget@subCategories');
         \Widget::register('storeRelatedProducts', 'Modules\Store\Widgets\storeWidget@related');
         \Widget::register('storeBrands', 'Modules\Store\Widgets\storeWidget@brands');
     }

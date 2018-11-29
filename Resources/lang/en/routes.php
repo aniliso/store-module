@@ -6,7 +6,7 @@ return [
         'slug' => 'category/{uri}'
     ],
     'product'  => [
-        'slug'   => 'product/{uri}',
+        'slug'   => 'product/{id}/{uri?}',
         'search' => 'product/search'
     ],
     'brand'    => [

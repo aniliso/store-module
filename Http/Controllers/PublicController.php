@@ -109,7 +109,7 @@ class PublicController extends BasePublicController
      * @param $slug
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function product($slug, $id)
+    public function product($id, $slug="")
     {
         $product = $this->product->find($id);
 
