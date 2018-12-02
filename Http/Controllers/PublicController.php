@@ -136,9 +136,11 @@ class PublicController extends BasePublicController
 
         Breadcrumbs::register('store.product', function ($breadcrumbs) use ($product) {
             $breadcrumbs->parent('store');
-            foreach ($product->categories()->latest()->first()->getAncestorsAndSelf() as $category):
-            $breadcrumbs->push($category->title, $category->url);
-            endforeach;
+            if($product->categories()->count()>0):
+                foreach ($product->categories()->latest()->first()->getAncestorsAndSelf() as $category):
+                    $breadcrumbs->push($category->title, $category->url);
+                endforeach;
+            endif;
             $breadcrumbs->push($product->title, $product->url);
         });
 

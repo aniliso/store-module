@@ -55,7 +55,7 @@ class Product extends Model implements TaggableInterface
     public function getUrlAttribute()
     {
         if (isset($this->slug)) {
-            return route('store.product.slug', [$this->slug, $this->id]);
+            return route('store.product.slug', [$this->id, $this->slug]);
         }
         return null;
     }
