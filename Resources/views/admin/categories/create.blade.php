@@ -46,7 +46,7 @@
             <div class="box box-primary">
                 <div class="box-body">
                     <div class="form-group">
-                        {!! Form::label("status", trans('blog::post.form.status').':') !!}
+                        {!! Form::label("status", trans('store::categories.form.status').':') !!}
                         <select name="status" id="status" class="form-control">
                             <?php foreach ($statuses as $id => $status): ?>
                             <option value="{{ $id }}" {{ old('status', 0) == $id ? 'selected' : '' }}>{{ $status }}</option>
