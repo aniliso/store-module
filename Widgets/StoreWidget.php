@@ -35,7 +35,7 @@ class StoreWidget
 
     public function categories($limit=6, $view='category')
     {
-        $categories = $this->category->all()->where('status', 1)->take($limit);
+        $categories = $this->category->roots()->where('status', 1)->take($limit);
         if($categories->count()>0) {
             return view('store::widgets.'.$view, compact('categories'));
         }
