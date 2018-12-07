@@ -58,6 +58,7 @@ class StoreServiceProvider extends ServiceProvider
         \Widget::register('storeSubCategory', 'Modules\Store\Widgets\StoreWidget@subCategories');
         \Widget::register('storeRelatedProducts', 'Modules\Store\Widgets\StoreWidget@related');
         \Widget::register('storeBrands', 'Modules\Store\Widgets\StoreWidget@brands');
+        \Widget::register('storeNewProducts', 'Modules\Store\Widgets\StoreWidget@newProducts');
     }
 
     public function boot()

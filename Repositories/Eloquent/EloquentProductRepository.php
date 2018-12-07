@@ -149,4 +149,13 @@ class EloquentProductRepository extends EloquentBaseRepository implements Produc
     {
         return $this->model->match($query)->paginate($per_page);
     }
+
+    /**
+     * @param int $amount
+     * @return mixed
+     */
+    public function getNewProducts($amount = 5)
+    {
+        return $this->model->whereStatus(Status::PUBLISHED)->where('is_new', 1)->orderBy('created_at', 'desc')->take($amount)->with($this->with)->get();
+    }
 }

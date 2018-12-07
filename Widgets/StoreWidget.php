@@ -53,7 +53,7 @@ class StoreWidget
 
     public function latest($limit=6, $view='product')
     {
-        $products = $this->product->getByAttributes(['is_new'=>1]);
+        $products = $this->product->latest($limit);
         if($products->count()>0) {
             return view('store::widgets.'.$view, compact('products'));
         }
@@ -75,6 +75,15 @@ class StoreWidget
 
         if($brands->count()>0) {
             return view('store::widgets.'.$view, compact('brands'));
+        }
+        return null;
+    }
+
+    public function newProducts($limit=0, $view='new-products')
+    {
+        $products = $this->product->getNewProducts($limit);
+        if($products->count()>0) {
+            return view('store::widgets.'.$view, compact('products'));
         }
         return null;
     }

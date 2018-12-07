@@ -36,4 +36,10 @@ interface ProductRepository extends BaseRepository
      * @return mixed
      */
     public function search($query, $per_page);
+
+    /**
+     * @param int $amount
+     * @return mixed
+     */
+    public function getNewProducts($amount=5);
 }

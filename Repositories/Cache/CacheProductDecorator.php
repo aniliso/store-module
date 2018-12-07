@@ -95,4 +95,19 @@ class CacheProductDecorator extends BaseCacheDecorator implements ProductReposit
                 }
             );
     }
+
+    /**
+     * @param int $amount
+     * @return mixed
+     */
+    public function getNewProducts($amount = 5)
+    {
+        return $this->cache
+            ->tags($this->entityName, 'global')
+            ->remember("{$this->locale}.{$this->entityName}.getNewProducts.{$amount}", $this->cacheTime,
+                function () use ($amount) {
+                    return $this->repository->latest($amount);
+                }
+            );
+    }
 }
