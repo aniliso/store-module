@@ -244,7 +244,7 @@ class PublicController extends BasePublicController
 
         Breadcrumbs::register('store.search', function ($breadcrumbs) use ($query) {
             $breadcrumbs->parent('store');
-            $breadcrumbs->push($query, \LaravelLocalization::getLocalizedURL(locale(), route('store.product.search', ['s'=>$query])));
+            $breadcrumbs->push($query,route('store.product.search', ['s'=>$query]));
         });
 
         return view('store::search', compact('query', 'products'));

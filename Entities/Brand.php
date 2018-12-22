@@ -35,6 +35,6 @@ class Brand extends Model
 
     public function getUrlAttribute()
     {
-        return \LaravelLocalization::getLocalizedURL(locale(), route('store.brand.slug', $this->slug));
+        return route('store.brand.slug', $this->slug);
     }
 }

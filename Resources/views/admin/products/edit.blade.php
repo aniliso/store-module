@@ -112,32 +112,7 @@
                     @tags('asgardcms/store', $product)
                 </div>
             </div>
-            <div class="box box-primary">
-                <div class="box-body">
-                    <div class='form-group{{ $errors->has("meta_robot_no_index") ? ' has-error' : '' }}'>
-                        {!! Form::hidden("meta_robot_no_index", 'index') !!}
-                        {!! Form::checkbox("meta_robot_no_index", 'noindex', old("meta_robot_no_index", ($product->meta_robot_no_index == 'index' ? 0 : 1)), ['class' => 'flat-blue']) !!}
-                        {!! Form::label("meta_robot_no_index", trans('store::stores.form.meta_robot_no_index')) !!}
-                        {!! $errors->first("meta_robot_no_index", '<span class="help-block">:message</span>') !!}
-                        <br/>
-                        {!! Form::hidden("meta_robot_no_follow", 'follow') !!}
-                        {!! Form::checkbox("meta_robot_no_follow", 'nofollow', old("meta_robot_no_follow", ($product->meta_robot_no_follow == 'follow' ? 0 : 1)), ['class' => 'flat-blue']) !!}
-                        {!! Form::label("meta_robot_no_follow", trans('store::stores.form.meta_robot_no_follow')) !!}
-                        {!! $errors->first("meta_robot_no_follow", '<span class="help-block">:message</span>') !!}
-                        <br/>
-                        {!! Form::hidden("sitemap_include", 0) !!}
-                        {!! Form::checkbox("sitemap_include", 1, old("sitemap_include", ($product->sitemap_include == 1 ? 1 : 0)), ['class' => 'flat-blue']) !!}
-                        {!! Form::label("sitemap_include", trans('core::sitemap.title.include')) !!}
-                        {!! $errors->first("sitemap_include", '<span class="help-block">:message</span>') !!}
-                    </div>
-                    <div class="form-group">
-                        {!! Form::normalSelect('sitemap_frequency', trans('core::sitemap.title.frequency'), $errors, $sitemapFrequencies, $product->sitemap_frequency) !!}
-                    </div>
-                    <div class="form-group">
-                        {!! Form::normalSelect('sitemap_priority', trans('core::sitemap.title.priority'), $errors, $sitemapPriorities, $product->sitemap_priority) !!}
-                    </div>
-                </div>
-            </div>
+            @includeIf('sitemap::admin.partials.robots', ['model'=>$product])
             <div class="box box-primary">
                 <div class="box-body">
                     @mediaSingle('productFiles', $product, null, trans('store::products.form.file'))
