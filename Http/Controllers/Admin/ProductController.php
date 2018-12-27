@@ -63,7 +63,7 @@ class ProductController extends AdminBaseController
     public function index()
     {
         if (request()->ajax()) {
-            $products = $this->product->all();
+            $products = $this->product->allWithBuilder();
             return Datatables::of($products)
                 ->editColumn('ordering', function ($product) {
                     return '<a href="#" id="ordering" class="editable" data-type="text" data-pk="' . $product->id . '" data-url="' . route('api.store.product.update') . '" data-title="' . trans('store::products.form.ordering') . '">' . $product->ordering . '</a>';
