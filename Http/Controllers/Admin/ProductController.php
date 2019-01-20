@@ -56,15 +56,17 @@ class ProductController extends AdminBaseController
     }
 
     /**
-     * Display a listing of the resource.
-     *
-     * @return Response
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\JsonResponse|\Illuminate\View\View
+     * @throws \Exception
      */
     public function index()
     {
+        $products = $this->product->allWithBuilder()->with(['translations', 'categories', 'categories.translations', 'brand']);
         if (request()->ajax()) {
-            $products = $this->product->allWithBuilder();
-            return Datatables::of($products)
+            return Datatables::eloquent($products)
+                ->addColumn('title', function($product){
+                    return $product->translate($this->locale)->title;
+                })
                 ->editColumn('ordering', function ($product) {
                     return '<a href="#" id="ordering" class="editable" data-type="text" data-pk="' . $product->id . '" data-url="' . route('api.store.product.update') . '" data-title="' . trans('store::products.form.ordering') . '">' . $product->ordering . '</a>';
                 })

@@ -91,7 +91,7 @@
                     {data: 'status', name: 'status'},
                     {data: 'sku', 'name': 'sku'},
                     {data: 'category', name: 'category'},
-                    {data: 'title', name: 'title'},
+                    {data: 'title', name: 'translations.title'},
                     {data: 'created_at', name: 'created_at'},
                     {data: 'action', name: 'action', orderable: false, searchable: false}
                 ],

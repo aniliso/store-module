@@ -114,8 +114,10 @@ class Product extends Model implements TaggableInterface
     public function scopeMatch($query, $value)
     {
         return $query->whereHas('translations', function (Builder $q) use ($value) {
-            $q->whereRaw("MATCH(title, description) AGAINST(? IN BOOLEAN MODE)", $this->fullTextWildcards($value));
-        })->orWhereRaw("MATCH(model, sku) AGAINST(? IN BOOLEAN MODE)", $this->fullTextWildcards($value))
+            $q->where("title", "like", "%".$value."%");
+            $q->orWhere("description", "like", "%".$value."%");
+        })->orWhere("model", "like", "%".$value."%")
+            ->orWhere("sku", "like", "%".$value."%")
             ->with(['translations'])->whereStatus(Status::PUBLISHED);
     }
 
