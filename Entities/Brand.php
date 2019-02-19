@@ -35,6 +35,6 @@ class Brand extends Model
 
     public function getUrlAttribute()
     {
-        return route('store.brand.slug', $this->slug);
+        return localize_trans_url(locale(), 'store::routes.brand.slug', ['uri'=>$this->slug]);
     }
 }

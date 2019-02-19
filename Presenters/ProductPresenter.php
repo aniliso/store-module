@@ -56,18 +56,4 @@ class ProductPresenter extends BaseStorePresenter
     {
         return $this->entity->is_new == 1 ? trans('store::products.title.new') : null;
     }
-
-    public function url($locale='')
-    {
-        if(!empty($locale)) {
-            if($this->entity->hasTranslation($locale)) {
-                if(isset($this->entity->translate($locale)->{$this->slugKey})) {
-                    return \LaravelLocalization::getURLFromRouteNameTranslated($locale, $this->transKey, ['id'=>$this->id, $this->slug => $this->entity->translate($locale)->{$this->slugKey}]);
-                } else {
-                    return \LaravelLocalization::getURLFromRouteNameTranslated($locale, $this->transKey, ['id'=>$this->id, $this->slug => $this->entity->{$this->slugKey}]);
-                }
-            }
-        }
-        return route($this->routeKey, $this->entity->{$this->slugKey});
-    }
 }

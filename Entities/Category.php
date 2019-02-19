@@ -45,6 +45,6 @@ class Category extends Node
 
     public function getUrlAttribute()
     {
-        return route('store.category.slug', [$this->slug]);
+        return localize_trans_url(locale(), 'store::routes.category.slug', ['uri'=>$this->slug]);
     }
 }

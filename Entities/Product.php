@@ -54,10 +54,7 @@ class Product extends Model implements TaggableInterface
 
     public function getUrlAttribute()
     {
-        if (isset($this->slug)) {
-            return route('store.product.slug', [$this->id, $this->slug]);
-        }
-        return null;
+        return localize_trans_url(locale(), 'store::routes.product.slug', ['id'=>$this->id, 'uri'=>$this->slug]);
     }
 
     public function hasImage()
