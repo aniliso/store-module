@@ -10,8 +10,6 @@ class BrandTranslation extends Model
     protected $fillable = ['title', 'slug', 'description', 'meta_title', 'meta_description', 'og_title', 'og_description', 'og_image', 'og_type'];
     protected $table = 'store__brand_translations';
 
-    protected $appends = ['url'];
-
     public function getUrlAttribute()
     {
         return localize_trans_url($this->locale, 'store::routes.brand.slug', ['uri'=>$this->slug]);
