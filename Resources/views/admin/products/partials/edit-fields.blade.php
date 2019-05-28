@@ -29,16 +29,8 @@
                         </div>
                         <div style="height: 0px;" id="collapseTwo-{{$lang}}" class="panel-collapse collapse">
                             <div class="box-body">
-                                <div class='form-group{{ $errors->has("{$lang}[meta_title]") ? ' has-error' : '' }}'>
-                                    {!! Form::label("{$lang}[meta_title]", trans('store::products.form.meta_title')) !!}
-                                    {!! Form::text("{$lang}[meta_title]", old("$lang.meta_title"), ['class' => "form-control", 'placeholder' => trans('store::products.form.meta_title')]) !!}
-                                    {!! $errors->first("{$lang}[meta_title]", '<span class="help-block">:message</span>') !!}
-                                </div>
-                                <div class='form-group{{ $errors->has("{$lang}[meta_description]") ? ' has-error' : '' }}'>
-                                    {!! Form::label("{$lang}[meta_description]", trans('store::products.form.meta_description')) !!}
-                                    <textarea class="form-control" name="{{$lang}}[meta_description]" rows="10" cols="80">{{ old("$lang.meta_description") }}</textarea>
-                                    {!! $errors->first("{$lang}[meta_description]", '<span class="help-block">:message</span>') !!}
-                                </div>
+                                {!! Form::i18nInput("meta_title", trans('blog::post.form.meta_title'), $errors, $lang, $product) !!}
+                                {!! Form::i18nTextarea("meta_description", trans('blog::post.form.meta_description'), $errors, $lang, $product, ['class'=>'form-control']) !!}
                             </div>
                         </div>
                     </div>
@@ -52,24 +44,9 @@
                         </div>
                         <div style="height: 0px;" id="collapseFacebook-{{$lang}}" class="panel-collapse collapse">
                             <div class="box-body">
-                                <div class='form-group{{ $errors->has("{$lang}[og_title]") ? ' has-error' : '' }}'>
-                                    {!! Form::label("{$lang}[og_title]", trans('store::products.form.og_title')) !!}
-                                    {!! Form::text("{$lang}[og_title]", old("{$lang}.og_title"), ['class' => "form-control", 'placeholder' => trans('store::products.form.og_title')]) !!}
-                                    {!! $errors->first("{$lang}[og_title]", '<span class="help-block">:message</span>') !!}
-                                </div>
-                                <div class='form-group{{ $errors->has("{$lang}[og_description]") ? ' has-error' : '' }}'>
-                                    {!! Form::label("{$lang}[og_description]", trans('store::products.form.og_description')) !!}
-                                    <textarea class="form-control" name="{{$lang}}[og_description]" rows="10" cols="80">{{ old("$lang.og_description") }}</textarea>
-                                    {!! $errors->first("{$lang}[og_description]", '<span class="help-block">:message</span>') !!}
-                                </div>
-                                <div class="form-group{{ $errors->has("{$lang}[og_type]") ? ' has-error' : '' }}">
-                                    <label>{{ trans('store::products.form.og_type') }}</label>
-                                    <select class="form-control" name="{{ $lang }}[og_type]">
-                                        <option value="website" {{ old("$lang.og_type") == 'website' ? 'selected' : '' }}>{{ trans('store::products.facebook-types.website') }}</option>
-                                        <option value="product" {{ old("$lang.og_type") == 'product' ? 'selected' : '' }}>{{ trans('store::products.facebook-types.product') }}</option>
-                                        <option value="article" {{ old("$lang.og_type") == 'article' ? 'selected' : '' }}>{{ trans('store::products.facebook-types.article') }}</option>
-                                    </select>
-                                </div>
+                                {!! Form::i18nInput("og_title", trans('store::products.form.og_title'), $errors, $lang, $product) !!}
+                                {!! Form::i18nInput("og_description", trans('store::products.form.og_description'), $errors, $lang, $product) !!}
+                                {!! Form::i18nSelect("og_type", trans('store::products.form.og_type'), $errors, $lang, array_combine(['website','product','article'],['website','product','article']), $product) !!}
                             </div>
                         </div>
                     </div>
